@@ -3,356 +3,395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Found - Moderasiya</title>
-    <!-- Google Fonts: Balon şrifti (Fredoka) və müasir yazı şrifti (Inter) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- FontAwesome İkonları (Ödəniş və digər simvollar üçün) -->
+    <title>Google Giriş Sistemi</title>
+    <!-- FontAwesome İkon Kitabxanası -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: #ffffff;
-            color: #333333;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
+            background-color: #f8f9fa;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 40px 20px 20px 20px;
+            min-height: 100vh;
         }
 
-        .main-container {
-            max-width: 650px;
-            width: 100%;
+        /* Giriş Düyməsi və ya Profil Görünüşü */
+        .auth-container {
             text-align: center;
-            margin: auto;
         }
 
-        /* Balon şriftində mavi 404 Found */
-        .title-404 {
-            font-family: 'Fredoka', cursive;
-            font-size: 4rem;
-            color: #1e90ff;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-            text-shadow: 2px 2px 0px #e6f0ff;
-        }
-
-        .status-text {
-            font-size: 0.95rem;
-            color: #555555;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-
-        /* Taymer bölməsi */
-        .timer-box {
-            background: #f4f8ff;
-            border: 1px solid #d0e3ff;
-            border-radius: 12px;
-            padding: 15px 25px;
-            display: inline-block;
-            margin-bottom: 25px;
-        }
-
-        .timer-label {
-            font-size: 0.8rem;
-            color: #666666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-
-        .timer-display {
-            font-family: 'Fredoka', cursive;
-            font-size: 2.2rem;
-            color: #1e90ff;
-        }
-
-        /* Moderatör bölməsi */
-        .moderator-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 30px;
-            font-size: 0.95rem;
-            color: #444444;
-            font-weight: 500;
-        }
-
-        .hb-badge {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background-color: #1e90ff;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Fredoka', cursive;
-            font-size: 1rem;
-            box-shadow: 0 2px 6px rgba(30, 144, 255, 0.3);
-        }
-
-        /* Şərh bölməsi */
-        .comments-section {
-            background-color: #fafafa;
-            border: 1px solid #eeeeee;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: left;
-            margin-bottom: 40px;
-        }
-
-        .comments-section h3 {
-            font-size: 1rem;
-            margin-bottom: 12px;
-            color: #333333;
-        }
-
-        .comment-input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .comment-input-group input {
-            flex: 1;
-            padding: 10px 14px;
-            border: 1px solid #cccccc;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .comment-input-group input:focus {
-            border-color: #1e90ff;
-        }
-
-        .comment-input-group button {
-            background-color: #1e90ff;
+        .login-trigger-btn {
+            background-color: #1a73e8;
             color: #ffffff;
             border: none;
-            padding: 10px 18px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
             transition: background-color 0.2s;
         }
 
-        .comment-input-group button:hover {
-            background-color: #107acc;
+        .login-trigger-btn:hover {
+            background-color: #1557b0;
         }
 
-        .comments-list {
-            max-height: 150px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .comment-item {
+        /* Giriş Edildikdən Sonra Profil Paneli */
+        .user-profile-card {
             background: #ffffff;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #e0e0e0;
-            font-size: 0.85rem;
-            word-break: break-word;
-        }
-
-        /* Footer & İkonlar */
-        footer {
-            width: 100%;
-            max-width: 650px;
-            display: flex;
-            flex-direction: column;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: none;
             align-items: center;
             gap: 15px;
-            padding-top: 20px;
-            border-top: 1px solid #f0f0f0;
         }
 
-        .payment-icons {
+        .user-profile-card.active {
             display: flex;
-            gap: 20px;
-            font-size: 1.8rem;
-            color: #666666;
         }
 
-        .payment-icons i:hover {
-            color: #1e90ff;
+        .profile-info {
+            text-align: left;
         }
 
-        /* Çərəz (Cookie) Banneri */
-        .cookie-banner {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #222222;
-            color: #ffffff;
-            padding: 12px 20px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            font-size: 0.85rem;
-            z-index: 1000;
-            width: 90%;
-            max-width: 500px;
+        .profile-name {
+            font-weight: 600;
+            color: #202124;
+            font-size: 0.95rem;
         }
 
-        .cookie-banner button {
-            background-color: #1e90ff;
-            color: #ffffff;
-            border: none;
-            padding: 6px 14px;
+        .profile-email {
+            font-size: 0.8rem;
+            color: #5f6368;
+        }
+
+        .logout-btn {
+            background: none;
+            border: 1px solid #dadce0;
+            padding: 6px 12px;
             border-radius: 6px;
             cursor: pointer;
-            font-weight: 600;
-            white-space: nowrap;
+            font-size: 0.85rem;
+            color: #d93025;
+            transition: background 0.2s;
         }
 
-        .cookie-banner button:hover {
-            background-color: #107acc;
+        .logout-btn:hover {
+            background: #fce8e6;
+        }
+
+        /* Pop-up Modal Arxa Fonu */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Pop-up Pəncərəsi */
+        .google-modal {
+            background: #ffffff;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            padding: 30px 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            text-align: center;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal-overlay.active .google-modal {
+            transform: translateY(0);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #5f6368;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .google-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            color: #202124;
+            margin-bottom: 5px;
+        }
+
+        .modal-subtitle {
+            font-size: 0.9rem;
+            color: #5f6368;
+            margin-bottom: 20px;
+        }
+
+        /* Hesablar Siyahısı */
+        .accounts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .account-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .account-item:hover {
+            background-color: #f8f9fa;
+            border-color: #c1c4c9;
+        }
+
+        .account-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: #1a73e8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .account-info {
+            overflow: hidden;
+        }
+
+        .account-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #3c4043;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .account-email {
+            font-size: 0.75rem;
+            color: #5f6368;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Başqa Hesab Əlavə Et / Daxil Ol */
+        .use-another {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            color: #1a73e8;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+            border: 1px dashed #1a73e8;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .use-another:hover {
+            background-color: #f1f8fe;
         }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
-        <!-- Mavi Balon Şriftində 404 Found -->
-        <h1 class="title-404">404 Found</h1>
+    <div class="auth-container">
+        <!-- Giriş Düyməsi (Hələ giriş edilməyibsə görünür) -->
+        <button class="login-trigger-btn" id="loginBtn" onclick="openModal()">Giriş et</button>
 
-        <!-- Status Mətni -->
-        <p class="status-text">Bu site şu anda moderatör tarafından inceleniliyor.</p>
-
-        <!-- 1 Saat 30 Dəqiqəlik Sabit Geri Sayım -->
-        <div class="timer-box">
-            <div class="timer-label">Qalan Moderasiya Müddəti</div>
-            <div class="timer-display" id="timer">01:30:00</div>
-        </div>
-
-        <!-- Moderatör Məlumatı -->
-        <div class="moderator-info">
-            <span>Siteyi inceleyen moderatör: Hesen Bagirov and Hüseyn Bagirov</span>
-            <div class="hb-badge">HB</div>
-        </div>
-
-        <!-- Şərh Bölməsi -->
-        <div class="comments-section">
-            <h3>Şərhlər</h3>
-            <div class="comment-input-group">
-                <input type="text" id="commentInput" placeholder="Şərhinizi yazın...">
-                <button onclick="addComment()">Göndər</button>
+        <!-- Giriş Edildikdən Sonra Görünən Profil Kartı -->
+        <div class="user-profile-card" id="userProfileCard">
+            <div class="account-avatar" id="profileAvatar">H</div>
+            <div class="profile-info">
+                <div class="profile-name" id="profileName">İstifadəçi</div>
+                <div class="profile-email" id="profileEmail">email@gmail.com</div>
             </div>
-            <div class="comments-list" id="commentsList">
-                <!-- Yazılan şərhlər bura əlavə olunacaq -->
-            </div>
+            <button class="logout-btn" onclick="logout()">Çıxış</button>
         </div>
     </div>
 
-    <!-- Səhifənin Alt Hissəsi (Ödəniş / İkonlar) -->
-    <footer>
-        <div class="payment-icons">
-            <i class="fa-brands fa-paypal" title="PayPal"></i>
-            <i class="fa-brands fa-google" title="Google"></i>
-            <i class="fa-brands fa-cc-visa" title="Visa"></i>
-            <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
-        </div>
-    </footer>
+    <!-- Pop-up (Modal) Bölməsi -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="google-modal">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            
+            <div class="google-logo">
+                <span style="color: #4285F4;">G</span><span style="color: #EA4335;">o</span><span style="color: #FBBC05;">o</span><span style="color: #4285F4;">g</span><span style="color: #34A853;">l</span><span style="color: #EA4335;">e</span>
+            </div>
+            
+            <h2 class="modal-title">Hesab seçin</h2>
+            <p class="modal-subtitle">Davam etmək üçün öz hesabınızı seçin</p>
 
-    <!-- Çərəzlər (Cookies) Xəbərdarlığı -->
-    <div class="cookie-banner" id="cookieBanner">
-        <span>Səhifənin düzgün işləməsi üçün çərəzlərdən (cookies) istifadə olunur.</span>
-        <button onclick="acceptCookies()">Qəbul et</button>
+            <!-- Dinamik Hesablar Siyahısı -->
+            <div class="accounts-list" id="accountsList">
+                <!-- Bura JavaScript vasitəsilə cihazda yadda qalan hesablar gələcək -->
+            </div>
+
+            <!-- Başqa Hesab Əlavə Et -->
+            <div class="use-another" onclick="addNewAccount()">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Başqa bir hesab əlavə edin</span>
+            </div>
+        </div>
     </div>
 
     <script>
-        // --- Sabit 1 Saat 30 Dəqiqəlik Taymer ---
-        // Səhifə yenilənsə də vaxt sıfırlanmır (localStorage istifadə olunur)
-        const COUNTDOWN_TIME = 90 * 60 * 1000; // 1 saat 30 dəqiqə = 5400 saniyə (milli-saniyə ilə)
+        // Səhifə açıldıqda yoxla ki, bu istifadəçi əvvəlcдən daxil olubmu
+        window.onload = function() {
+            checkLoginState();
+        };
 
-        let endTime = localStorage.getItem('moderation_end_time');
-
-        if (!endTime) {
-            endTime = Date.now() + COUNTDOWN_TIME;
-            localStorage.setItem('moderation_end_time', endTime);
+        function openModal() {
+            renderAccountsList();
+            document.getElementById('loginModal').classList.add('active');
         }
 
-        function updateTimer() {
-            const now = Date.now();
-            const distance = endTime - now;
+        function closeModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
 
-            if (distance <= 0) {
-                document.getElementById('timer').innerText = "00:00:00";
-                clearInterval(timerInterval);
+        // Cihazın brauzer yaddaşından (localStorage) hesabları oxumaq
+        function getSavedAccounts() {
+            return JSON.parse(localStorage.getItem('my_google_accounts') || '[]');
+        }
+
+        // Hesablar siyahısını pop-up-a doldurmaq
+        function renderAccountsList() {
+            const listEl = document.getElementById('accountsList');
+            const accounts = getSavedAccounts();
+            
+            listEl.innerHTML = '';
+
+            if (accounts.length === 0) {
+                listEl.innerHTML = '<p style="font-size:0.85rem; color:#666; text-align:center; padding: 10px;">Hələ bu cihazda yadda saxlanılan hesab yoxdur. Aşağıdan əlavə edin.</p>';
                 return;
             }
 
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            const format = (num) => String(num).padStart(2, '0');
-
-            document.getElementById('timer').innerText = `${format(hours)}:${format(minutes)}:${format(seconds)}`;
-        }
-
-        updateTimer();
-        const timerInterval = setInterval(updateTimer, 1000);
-
-
-        // --- Şərh Sistemi ---
-        function loadComments() {
-            const comments = JSON.parse(localStorage.getItem('site_comments') || '[]');
-            const list = document.getElementById('commentsList');
-            list.innerHTML = '';
-            comments.forEach(c => {
+            accounts.forEach((acc, index) => {
+                const firstLetter = acc.name.charAt(0).toUpperCase();
                 const item = document.createElement('div');
-                item.className = 'comment-item';
-                item.innerText = c;
-                list.appendChild(item);
+                item.className = 'account-item';
+                item.onclick = () => loginAs(acc);
+                item.innerHTML = `
+                    <div class="account-avatar">${firstLetter}</div>
+                    <div class="account-info">
+                        <div class="account-name">${acc.name}</div>
+                        <div class="account-email">${acc.email}</div>
+                    </div>
+                `;
+                listEl.appendChild(item);
             });
         }
 
-        function addComment() {
-            const input = document.getElementById('commentInput');
-            const text = input.value.trim();
-            if (text) {
-                const comments = JSON.parse(localStorage.getItem('site_comments') || '[]');
-                comments.push(text);
-                localStorage.setItem('site_comments', JSON.stringify(comments));
-                input.value = '';
-                loadComments();
+        // Yeni hesab əlavə etmək (istifadəçi öz adını və e-poçtunu daxil edir)
+        function addNewAccount() {
+            const name = prompt("Adınızı və Soyadınızı daxil edin (məs: Əli Məmmədov):");
+            if (!name) return;
+            const email = prompt("Google e-poçt ünvanınızı daxil edin (məs: ali@gmail.com):");
+            if (!email) return;
+
+            let accounts = getSavedAccounts();
+            
+            // Eyni e-poçt artıq varsa təkrar əlavə etmə
+            const exists = accounts.some(acc => acc.email === email);
+            if (!exists) {
+                accounts.push({ name: name, email: email });
+                localStorage.setItem('my_google_accounts', JSON.stringify(accounts));
+            }
+
+            // Birbaşa həmin hesabla giriş et
+            loginAs({ name: name, email: email });
+        }
+
+        // Seçilmiş hesabla daxil olmaq
+        function loginAs(account) {
+            localStorage.setItem('current_active_user', JSON.stringify(account));
+            closeModal();
+            checkLoginState();
+        }
+
+        // Giriş vəziyyətini yoxlayıb səhifəni yeniləmək
+        function checkLoginState() {
+            const activeUser = JSON.parse(localStorage.getItem('current_active_user'));
+            const loginBtn = document.getElementById('loginBtn');
+            const profileCard = document.getElementById('userProfileCard');
+
+            if (activeUser) {
+                loginBtn.style.display = 'none';
+                profileCard.classList.add('active');
+                document.getElementById('profileName').innerText = activeUser.name;
+                document.getElementById('profileEmail').innerText = activeUser.email;
+                document.getElementById('profileAvatar').innerText = activeUser.name.charAt(0).toUpperCase();
+            } else {
+                loginBtn.style.display = 'block';
+                profileCard.classList.remove('active');
             }
         }
 
-        loadComments();
-
-
-        // --- Çərəzlər (Cookie) Banneri ---
-        if (localStorage.getItem('cookies_accepted') === 'true') {
-            document.getElementById('cookieBanner').style.display = 'none';
+        // Çıxış etmək
+        function logout() {
+            localStorage.removeItem('current_active_user');
+            checkLoginState();
         }
 
-        function acceptCookies() {
-            localStorage.setItem('cookies_accepted', 'true');
-            document.getElementById('cookieBanner').style.display = 'none';
+        // Pəncərənin xaricinə basdıqda modalın bağlanması
+        window.onclick = function(event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target === modal) {
+                closeModal();
+            }
         }
     </script>
 </body>
-</html>
+        </html>
+        
