@@ -148,94 +148,13 @@
     }
 
     .content-box {
-      font-size: 1.5rem;
-      font-weight: 600;
+      font-size: 1.8rem;
+      font-weight: 700;
       color: #2563eb;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       word-wrap: break-word;
     }
   </style>
-
-  <!-- Firebase SDKs -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    // BURAYA ƏVƏZ ET: Firebase layihə parametrlərin
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // Qlobal funksiyaları təyin edirik
-    window.openModal = () => document.getElementById('modalOverlay').style.display = 'flex';
-    window.closeModal = () => document.getElementById('modalOverlay').style.display = 'none';
-
-    // Yeni layihəni Firebase-ə yazır və keçid yaradır
-    window.createProject = async () => {
-      const text = document.getElementById('projectInput').value.trim();
-      if (!text) return;
-
-      try {
-        const docRef = await addDoc(collection(db, "projects"), {
-          content: text,
-          createdAt: new Date()
-        });
-
-        const projectUrl = window.location.origin + window.location.pathname + '?id=' + docRef.id;
-        
-        const container = document.getElementById('projectsContainer');
-        const card = document.createElement('div');
-        card.className = 'project-card';
-        card.innerHTML = `
-          <p style="margin-bottom: 8px;"><strong>Mətn:</strong> ${text}</p>
-          <a href="${projectUrl}" target="_blank">${projectUrl}</a>
-        `;
-        container.appendChild(card);
-        closeModal();
-        document.getElementById('projectInput').value = '';
-      } catch (e) {
-        alert("Xəta baş verdi: " + e.message);
-      }
-    };
-
-    // Keçid olunan ID üzrə məlumatı bazadan çəkir
-    async function loadProject() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const projectId = urlParams.get('id');
-
-      if (projectId) {
-        document.getElementById('mainDashboard').style.display = 'none';
-        document.getElementById('projectPage').style.display = 'block';
-
-        try {
-          const docRef = doc(db, "projects", projectId);
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            document.getElementById('pageContent').textContent = docSnap.data().content;
-          } else {
-            document.getElementById('pageContent').textContent = "Layihə tapılmadı!";
-          }
-        } catch (e) {
-          document.getElementById('pageContent').textContent = "Məlumat yüklənərkən xəta yarandı.";
-        }
-      }
-    }
-
-    window.goBack = () => {
-      window.location.href = window.location.origin + window.location.pathname;
-    };
-
-    loadProject();
-  </script>
 </head>
 <body>
 
@@ -253,7 +172,7 @@
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <h3>Yeni Layihə Yarat</h3>
-      <textarea id="projectInput" placeholder="İstədiyiniz sözü və ya məti yazın..."></textarea>
+      <textarea id="projectInput" placeholder="İstədiyiniz sözü və ya mətni yazın..."></textarea>
       <div class="modal-actions">
         <button class="btn-cancel" onclick="closeModal()">Ləğv et</button>
         <button class="btn-create" onclick="createProject()">Link Oluşdur</button>
@@ -267,6 +186,65 @@
     <p style="color: #64748b; margin-bottom: 25px;">Uğurla yaradılmış xüsusi layihə səhifəsindəsiniz!</p>
     <button class="btn-cancel" onclick="goBack()">← Geri Qayıt</button>
   </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('modalOverlay').style.display = 'flex';
+      document.getElementById('projectInput').focus();
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').style.display = 'none';
+      document.getElementById('projectInput').value = '';
+    }
+
+    function createProject() {
+      const text = document.getElementById('projectInput').value.trim();
+      if (!text) return;
+
+      // Mətni URL üçün təhlükəsiz Base64 formatına salırıq
+      const encodedText = encodeURIComponent(btoa(unescape(encodeURIComponent(text))));
+      
+      const baseUrl = window.location.origin + window.location.pathname;
+      const projectUrl = baseUrl + '?data=' + encodedText;
+
+      const container = document.getElementById('projectsContainer');
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.innerHTML = `
+        <p style="margin-bottom: 8px;"><strong>Mətn:</strong> ${text}</p>
+        <a href="${projectUrl}">${projectUrl}</a>
+      `;
+
+      container.appendChild(card);
+      closeModal();
+    }
+
+    function checkURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const data = urlParams.get('data');
+
+      if (data) {
+        document.getElementById('mainDashboard').style.display = 'none';
+        document.getElementById('projectPage').style.display = 'block';
+
+        try {
+          // Linkdəki koda çevrilmiş mətni geri oxuyur
+          const decodedText = decodeURIComponent(escape(atob(decodeURIComponent(data))));
+          document.getElementById('pageContent').textContent = decodedText;
+        } catch (e) {
+          document.getElementById('pageContent').textContent = "Məlumat oxuna bilmədi!";
+        }
+      }
+    }
+
+    function goBack() {
+      window.location.href = window.location.origin + window.location.pathname;
+    }
+
+    // Səhifə açıldıqda URL-i yoxlayırıq
+    window.onload = checkURL;
+  </script>
 
 </body>
 </html>
