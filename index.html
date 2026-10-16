@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>H&H Developer Console - Hosting Event</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>H&H Project Creator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -14,563 +14,241 @@
     }
 
     body {
-      background-color: #ffffff;
-      color: #1e293b;
-      min-height: 100vh;
+      background-color: #f8fafc;
+      color: #0f172a;
       display: flex;
       flex-direction: column;
       align-items: center;
+      min-height: 100vh;
+      padding: 40px 20px;
     }
 
-    /* Yüklənmə Ekranı (Loading Splash Screen) */
-    #loader {
+    .container {
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+
+    .btn-create {
+      background-color: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-create:hover {
+      background-color: #1d4ed8;
+    }
+
+    /* Modalların (Ağ Pəncərənin) Stili */
+    .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: #ffffff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-
-    .loader-logo {
-      font-size: 3rem;
-      font-weight: 800;
-      color: #2563eb;
-      letter-spacing: -1px;
-      margin-bottom: 25px;
-    }
-
-    .progress-container {
-      width: 250px;
-      height: 8px;
-      background: #e2e8f0;
-      border-radius: 10px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #2563eb, #3b82f6);
-      border-radius: 10px;
-      animation: fillProgress 4.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    @keyframes fillProgress {
-      0% { width: 0%; }
-      30% { width: 35%; }
-      70% { width: 75%; }
-      100% { width: 100%; }
-    }
-
-    /* Əsas Məzmun Container */
-    .container {
-      max-width: 800px;
-      width: 100%;
-      padding: 40px 20px 100px 20px;
-      opacity: 0;
-      animation: fadeIn 0.8s ease 4.5s forwards;
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-
-    /* Başlıq və Təklif Kartı */
-    .card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-      margin-bottom: 25px;
-    }
-
-    .title-banner {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #0f172a;
-      line-height: 1.3;
-      margin-bottom: 15px;
-    }
-
-    .price-badge {
-      display: inline-block;
-      background: #ecfdf5;
-      color: #059669;
-      border: 1px solid #a7f3d0;
-      font-size: 1.1rem;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 50px;
-      margin-bottom: 25px;
-    }
-
-    .section-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #1e293b;
-      margin-bottom: 15px;
-    }
-
-    .features-list {
-      list-style: none;
-    }
-
-    .features-list li {
-      font-size: 1rem;
-      color: #334155;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .features-list li::before {
-      content: "•";
-      color: #2563eb;
-      font-size: 1.5rem;
-      line-height: 1;
-    }
-
-    /* Moderator & Google Təsdiq Bölməsi */
-    .moderator-info {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .hb-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: #2563eb;
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .moderator-text {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #0f172a;
-    }
-
-    .instructions {
-      font-size: 0.95rem;
-      color: #475569;
-      line-height: 1.6;
-      background: #f8fafc;
-      padding: 16px;
-      border-left: 4px solid #2563eb;
-      border-radius: 6px;
-      margin-bottom: 25px;
-    }
-
-    .google-box {
-      border: 1px solid #cbd5e1;
-      border-radius: 12px;
-      padding: 20px;
-      background: #ffffff;
-    }
-
-    .google-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .google-logo {
-      width: 22px;
-      height: 22px;
-    }
-
-    .google-header span {
-      font-weight: 600;
-      color: #334155;
-      font-size: 0.95rem;
-    }
-
-    .checkbox-container {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      color: #1e293b;
-      user-select: none;
-    }
-
-    .checkbox-container input {
-      width: 20px;
-      height: 20px;
-      margin-top: 2px;
-      accent-color: #2563eb;
-      cursor: pointer;
-    }
-
-    /* Əlavə Məqalələr Bölməsi */
-    .articles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .article-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 18px;
-    }
-
-    .article-card h4 {
-      font-size: 1rem;
-      color: #0f172a;
-      margin-bottom: 8px;
-    }
-
-    .article-card p {
-      font-size: 0.85rem;
-      color: #64748b;
-      line-height: 1.5;
-    }
-
-    /* Əlaqə Bölməsi */
-    .contact-list {
-      list-style: none;
-      margin-top: 10px;
-    }
-
-    .contact-list li {
-      margin-bottom: 10px;
-      font-size: 0.95rem;
-    }
-
-    .contact-list a {
-      color: #2563eb;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .contact-list a:hover {
-      text-decoration: underline;
-    }
-
-    /* Çərəzlər (Cookie Banner) */
-    .cookie-banner {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #ffffff;
-      border-top: 1px solid #e2e8f0;
-      box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
-      padding: 15px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      z-index: 1000;
-      font-size: 0.85rem;
-      color: #475569;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .cookie-btn {
-      background: #0f172a;
-      color: #ffffff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
-    /* Dəstək Botu Widget */
-    .chat-widget {
-      position: fixed;
-      bottom: 80px;
-      right: 25px;
-      z-index: 1001;
-    }
-
-    .chat-button {
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      background: #2563eb;
-      color: #ffffff;
-      border: none;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .chat-window {
+      background: rgba(0,0,0,0.4);
       display: none;
-      position: absolute;
-      bottom: 65px;
-      right: 0;
-      width: 300px;
-      height: 380px;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal {
       background: #ffffff;
+      width: 90%;
+      max-width: 450px;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    }
+
+    .modal h3 {
+      margin-bottom: 15px;
+      font-size: 1.25rem;
+    }
+
+    .modal input {
+      width: 100%;
+      padding: 12px;
       border: 1px solid #cbd5e1;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .chat-header {
-      background: #2563eb;
-      color: #ffffff;
-      padding: 12px;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .chat-body {
-      flex: 1;
-      padding: 12px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      font-size: 0.85rem;
-      background: #f8fafc;
-    }
-
-    .chat-msg {
-      background: #e2e8f0;
-      padding: 8px 12px;
       border-radius: 8px;
-      max-width: 85%;
-    }
-
-    .chat-msg.bot {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      align-self: flex-start;
-    }
-
-    .chat-input-area {
-      display: flex;
-      border-top: 1px solid #e2e8f0;
-    }
-
-    .chat-input-area input {
-      flex: 1;
-      border: none;
-      padding: 10px;
-      font-size: 0.85rem;
+      font-size: 1rem;
+      margin-bottom: 20px;
       outline: none;
     }
 
-    .chat-input-area button {
-      background: #2563eb;
-      color: white;
+    .modal input:focus {
+      border-color: #2563eb;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn-cancel {
+      background: #e2e8f0;
+      color: #475569;
       border: none;
-      padding: 0 15px;
+      padding: 10px 16px;
+      border-radius: 8px;
       cursor: pointer;
     }
 
-    @media (max-width: 600px) {
-      .cookie-banner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .chat-window {
-        width: 280px;
-      }
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .project-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      padding: 15px 20px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .project-card a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+      word-break: break-all;
+    }
+
+    .project-card a:hover {
+      text-decoration: underline;
+    }
+
+    /* Layihə Səhifəsi Görünüşü */
+    #projectPage {
+      display: none;
+      text-align: center;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
     }
   </style>
 </head>
 <body>
 
-  <!-- 4.5 Saniyəlik Yüklənmə Ekranı -->
-  <div id="loader">
-    <div class="loader-logo">H&H</div>
-    <div class="progress-container">
-      <div class="progress-bar"></div>
+  <!-- Əsas Dashboard -->
+  <div class="container" id="mainDashboard">
+    <div class="header">
+      <h2>Layihələrim</h2>
+      <button class="btn-create" onclick="openModal()">+ Create new project</button>
+    </div>
+
+    <div class="project-list" id="projectsContainer">
+      <!-- Yaradılan linklər bura əlavə olunacaq -->
     </div>
   </div>
 
-  <!-- Əsas Sayt Məzmunu -->
-  <div class="container">
-    
-    <!-- Təklif Kartı -->
-    <div class="card">
-      <h1 class="title-banner">H&H Developer Console'dən sizə yeni hosting payı!</h1>
-      <div class="price-badge">20$' lıq Premium event sizin üçün 0$ Pay!</div>
-      
-      <h3 class="section-title">Üstünlükləri</h3>
-      <ul class="features-list">
-        <li>Öz şəxsi domainiz</li>
-        <li>Öz pul qazandıran reklam bannerləriniz</li>
-        <li>Şəxsi Google login siyahasaı</li>
-        <li>Pasha bank ilə sitenizə pullu keyfiyyətlər məhsullar qoymaq sistemi</li>
-        <li>H&H Console developer ömür boyu ban cəzası olmayacaq</li>
-        <li>Saytınız hhlogin.github.io saytında ilin ən böyük sitesi sıralamasına girəcək.</li>
-      </ul>
-    </div>
-
-    <!-- Təsdiqləmə və Moderator Bölməsi -->
-    <div class="card">
-      <div class="moderator-info">
-        <div class="hb-avatar">HB</div>
-        <div class="moderator-text">Göndərdi: Moderator Hesen Bagirov</div>
-      </div>
-
-      <div class="instructions">
-        Hədiyyə çekinin başarılıyla alınmadı üçün Google sites layihələrinizi flaş bəlləkdən bizə bağlayın (Əgər PC'dən düzəldirsəniz) mobilden düzəldirsəniz aşağıdaki qutuyu imzalamanız bəs edir biz ordan sitenizi yoxlayacayıq..
-      </div>
-
-      <div class="google-box">
-        <div class="google-header">
-          <svg class="google-logo" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-          </svg>
-          <span>Google Verification</span>
-        </div>
-
-        <label class="checkbox-container">
-          <input type="checkbox">
-          <span>Tələb olunan icazələri və layihəmin yoxlanılmasını təsdiq edirəm.</span>
-        </label>
-      </div>
-    </div>
-
-    <!-- Əlavə Məqalələr -->
-    <div class="card">
-      <h3 class="section-title">Əlavə Məqalələr və Təlimatlar</h3>
-      <div class="articles-grid">
-        <div class="article-card">
-          <h4>Hosting Quraşdırılması</h4>
-          <p>H&H Console üzərindən pulsuz domeninizi necə aktivləşdirəcəyinizi öyrənin.</p>
-        </div>
-        <div class="article-card">
-          <h4>Pasha Bank İnteqrasiyası</h4>
-          <p>Saytınıza e-ticarət və ödəniş sistemlərini təhlükəsiz qoşmaq yolları.</p>
-        </div>
-        <div class="article-card">
-          <h4>Reklam Bannerləri</h4>
-          <p>Şəxsi reklam şəbəkənizi quraraq saytdan gəlir əldə etməyə başlayın.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Əlaqə Bölməsi -->
-    <div class="card">
-      <h3 class="section-title">İletişim istəyirsiniz? Bu kontaktlardan istifadə edin ↓</h3>
-      <ul class="contact-list">
-        <li>🌐 Portallar: <a href="https://hhlogin.github.io" target="_blank">hhlogin.github.io</a></li>
-        <li>🔗 Dəstək: <a href="https://hhiletisim.github.io" target="_blank">hhiletisim.github.io</a></li>
-        <li>✉️ E-poçt: <a href="mailto:info@hhbuisnes@gmail.com">info@hhbuisnes@gmail.com</a></li>
-      </ul>
-    </div>
-
-  </div>
-
-  <!-- Dəstək Botu -->
-  <div class="chat-widget">
-    <button class="chat-button" onclick="toggleChat()">💬</button>
-    <div class="chat-window" id="chatWindow">
-      <div class="chat-header">H&H Dəstək Botu</div>
-      <div class="chat-body" id="chatBody">
-        <div class="chat-msg bot">Salam! H&H Dəstək xidmətinə xoş gəldiniz. Sizə necə kömək edə bilərəm?</div>
-      </div>
-      <div class="chat-input-area">
-        <input type="text" id="chatInput" placeholder="Sualınızı yazın..." onkeypress="handleKey(event)">
-        <button onclick="sendMsg()">></button>
+  <!-- Ağ Pəncərə (Modal) -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h3>Yeni Layihə Yarat</h3>
+      <input type="text" id="projectInput" placeholder="Söz və ya layihə adı yazın...">
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Ləğv et</button>
+        <button class="btn-create" onclick="createProject()">Link Oluşdur</button>
       </div>
     </div>
   </div>
 
-  <!-- Çərəz Bildirişi -->
-  <div class="cookie-banner" id="cookieBanner">
-    <span>Bu sayt daha yaxşı təcrübə təmin etmək üçün çərəzlərdən (cookies) istifadə edir.</span>
-    <button class="cookie-btn" onclick="acceptCookies()">Qəbul et</button>
+  <!-- Keçid Edilən Şəxsi Layihə Səhifəsi -->
+  <div class="container" id="projectPage">
+    <h1 id="pageTitle" style="font-size: 2rem; color: #2563eb; margin-bottom: 15px;"></h1>
+    <p style="color: #64748b; margin-bottom: 25px;">Uğurla yaradılmış xüsusi layihə səhifəsindəsiniz!</p>
+    <button class="btn-cancel" onclick="goBack()">← Geri Qayıt</button>
   </div>
 
   <script>
-    // 4.5 saniyə sonra yüklənmə ekranını gizlətmək
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        const loader = document.getElementById('loader');
-        loader.style.opacity = '0';
-        loader.style.visibility = 'hidden';
-      }, 4500);
-    });
+    // Səhifə açılanda URL-də hash (#) varmı deyə yoxlayır
+    window.onload = function() {
+      checkRoute();
+    };
 
-    // Çərəzləri qəbul etmək
-    function acceptCookies() {
-      document.getElementById('cookieBanner').style.display = 'none';
+    window.onhashchange = function() {
+      checkRoute();
+    };
+
+    function openModal() {
+      document.getElementById('modalOverlay').style.display = 'flex';
+      document.getElementById('projectInput').focus();
     }
 
-    // Dəstək botunu açıb-bağlamaq
-    function toggleChat() {
-      const win = document.getElementById('chatWindow');
-      win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+    function closeModal() {
+      document.getElementById('modalOverlay').style.display = 'none';
+      document.getElementById('projectInput').value = '';
     }
 
-    // Dəstək botu mesaj göndərmə
-    function sendMsg() {
-      const input = document.getElementById('chatInput');
-      const text = input.value.trim();
+    function createProject() {
+      const text = document.getElementById('projectInput').value.trim();
       if (!text) return;
 
-      const chatBody = document.getElementById('chatBody');
-      
-      const userMsg = document.createElement('div');
-      userMsg.className = 'chat-msg';
-      userMsg.style.alignSelf = 'flex-end';
-      userMsg.style.background = '#2563eb';
-      userMsg.style.color = '#ffffff';
-      userMsg.textContent = text;
-      chatBody.appendChild(userMsg);
+      // Link üçün təhlükəsiz URL slug yaradırıq
+      const slug = encodeURIComponent(text);
+      const projectUrl = window.location.origin + window.location.pathname + '#' + slug;
 
-      input.value = '';
-      chatBody.scrollTop = chatBody.scrollHeight;
+      // Yeni kart yaradıb siyahıya əlavə edirik
+      const container = document.getElementById('projectsContainer');
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.innerHTML = `
+        <div>
+          <strong>${text}</strong><br>
+          <a href="${projectUrl}">${projectUrl}</a>
+        </div>
+      `;
 
-      setTimeout(() => {
-        const botMsg = document.createElement('div');
-        botMsg.className = 'chat-msg bot';
-        botMsg.textContent = "Təşəkkürlər! Müraciətiniz Moderator Həsən Bağırov tərəfindən nəzərdən keçiriləcəkdir.";
-        chatBody.appendChild(botMsg);
-        chatBody.scrollTop = chatBody.scrollHeight;
-      }, 1000);
+      container.appendChild(card);
+      closeModal();
     }
 
-    function handleKey(e) {
-      if (e.key === 'Enter') sendMsg();
+    function checkRoute() {
+      const hash = window.location.hash.replace('#', '');
+      const mainDashboard = document.getElementById('mainDashboard');
+      const projectPage = document.getElementById('projectPage');
+      const pageTitle = document.getElementById('pageTitle');
+
+      if (hash) {
+        // Əgər URL-də #söz varsa həmin səhifəni açır
+        mainDashboard.style.display = 'none';
+        projectPage.style.display = 'block';
+        pageTitle.textContent = decodeURIComponent(hash);
+      } else {
+        // Yoxdursa əsas paneli gösterir
+        mainDashboard.style.display = 'block';
+        projectPage.style.display = 'none';
+      }
+    }
+
+    function goBack() {
+      window.location.hash = '';
     }
   </script>
 
 </body>
-  </html>
-                                                                       
+</html>
