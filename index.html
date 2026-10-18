@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>H&H Project Creator</title>
+  <title>H&H AI & Project Creator</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -20,19 +20,134 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      padding: 40px 20px;
+      padding: 80px 20px 40px 20px; /* Reklam banneri üstdə olduğu üçün üst boşluq */
     }
 
     .container {
-      max-width: 600px;
+      max-width: 650px;
       width: 100%;
     }
 
+    /* Naviqasiya Menyusu */
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .nav-btn {
+      flex: 1;
+      padding: 12px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .nav-btn.active {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* Çat Bölməsi */
+    .chat-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      height: 450px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+
+    .message.user {
+      background: #2563eb;
+      color: #ffffff;
+      align-self: flex-end;
+      border-bottom-right-radius: 2px;
+    }
+
+    .message.ai {
+      background: #f1f5f9;
+      color: #0f172a;
+      align-self: flex-start;
+      border-bottom-left-radius: 2px;
+    }
+
+    .chat-input-area {
+      display: flex;
+      padding: 15px;
+      border-top: 1px solid #e2e8f0;
+      background: #ffffff;
+      gap: 10px;
+    }
+
+    .chat-input-area input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      outline: none;
+      font-size: 0.95rem;
+    }
+
+    .chat-input-area input:focus {
+      border-color: #2563eb;
+    }
+
+    .send-btn {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 0 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .send-btn:hover {
+      background: #1d4ed8;
+    }
+
+    /* Layihələr Bölməsi */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       background: #ffffff;
       padding: 20px;
       border-radius: 12px;
@@ -134,7 +249,7 @@
       word-break: break-all;
     }
 
-    /* Layihə Səhifəsi Görünüşü */
+    /* Layihə Təkli Baxış Səhifəsi */
     #projectPage {
       display: none;
       text-align: center;
@@ -144,8 +259,6 @@
       border: 1px solid #e2e8f0;
       box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
       width: 100%;
-      max-width: 600px;
-      margin-top: 60px; /* Reklam örtməsin deyə üst boşluq */
     }
 
     .content-box {
@@ -159,17 +272,67 @@
 </head>
 <body>
 
-  <!-- Əsas Dashboard -->
-  <div class="container" id="mainDashboard">
-    <div class="header">
-      <h2>Layihələrim</h2>
-      <button class="btn-create" onclick="openModal()">+ Create new project</button>
+  <!-- BEGIN AADS AD UNIT 2459007 (Həmişə Üstdə Sabit Reklam) -->
+  <div style="position: absolute; z-index: 99999">
+    <input autocomplete="off" type="checkbox" id="aadsstickymvdz2m6o" hidden />
+    <div style="padding-top: auto; padding-bottom: 0;">
+      <div style="width:100%;height:auto;position:fixed;text-align:center;font-size:0;top:0;left:0;right:0;margin:auto">
+        <label for="aadsstickymvdz2m6o" style="top: 50%;transform: translateY(-50%);right:24px;; position: absolute;border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px;z-index: 99999;cursor:pointer">
+          <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490">
+            <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
+          </svg>
+        </label>
+        <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;"><iframe data-aa=2459007 src=//acceptable.a-ads.com/2459007/?size=Adaptive style='border:0; padding:0; width:70%; height:auto; overflow:hidden; margin: auto'></iframe></div>
+      </div>
+      <style>
+        #aadsstickymvdz2m6o:checked + div {
+          display: none;
+        }
+      </style>
+    </div>
+  </div>
+  <!-- END AADS AD UNIT 2459007 -->
+
+  <div class="container" id="appContainer">
+    
+    <!-- Naviqasiya -->
+    <div class="nav-tabs" id="navTabs">
+      <button class="nav-btn active" onclick="switchTab('chat')">H&H AI Çat</button>
+      <button class="nav-btn" onclick="switchTab('projects')">Layihələr</button>
     </div>
 
-    <div class="project-list" id="projectsContainer"></div>
+    <!-- 1. H&H AI Çat Bölməsi -->
+    <div class="section active" id="chatSection">
+      <div class="chat-box">
+        <div class="chat-messages" id="chatMessages">
+          <div class="message ai">Salam! Mən H&H AI-yam. Sizə necə kömək edə bilərəm?</div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="userInput" placeholder="Mesajınızı yazın..." onkeypress="handleKeyPress(event)">
+          <button class="send-btn" onclick="sendMessage()">Göndər</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Layihələr Bölməsi -->
+    <div class="section" id="projectsSection">
+      <div class="header">
+        <h2>Layihələrim</h2>
+        <button class="btn-create" onclick="openModal()">+ Yeni Layihə</button>
+      </div>
+      <div class="project-list" id="projectsContainer"></div>
+    </div>
+
+    <!-- 3. Təkli Layihə Səhifəsi (URL-də ?data= olduqda açılır) -->
+    <div id="projectPage">
+      <div class="content-box" id="pageContent">Yüklənir...</div>
+      <p style="color: #64748b; margin-bottom: 25px;">Uğurla yaradılmış xüsusi layihə səhifəsindəsiniz!</p>
+      <button class="btn-cancel" onclick="goBack()">← Geri Qayıt</button>
+    </div>
+
   </div>
 
-  <!-- Ağ Pəncərə (Modal) -->
+  <!-- Modal Pəncərə -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <h3>Yeni Layihə Yarat</h3>
@@ -181,36 +344,63 @@
     </div>
   </div>
 
-  <!-- Yaradılan Avtomatik Layihə Səhifəsi -->
-  <div id="projectPage">
-
-    <!-- BEGIN AADS AD UNIT 2459007 -->
-    <div style="position: absolute; z-index: 99999">
-      <input autocomplete="off" type="checkbox" id="aadsstickymvdz2m6o" hidden />
-      <div style="padding-top: auto; padding-bottom: 0;">
-        <div style="width:100%;height:auto;position:fixed;text-align:center;font-size:0;top:0;left:0;right:0;margin:auto">
-          <label for="aadsstickymvdz2m6o" style="top: 50%;transform: translateY(-50%);right:24px;; position: absolute;border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px;z-index: 99999;cursor:pointer">
-            <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490">
-              <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
-            </svg>
-          </label>
-          <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;"><iframe data-aa=2459007 src=//acceptable.a-ads.com/2459007/?size=Adaptive style='border:0; padding:0; width:70%; height:auto; overflow:hidden; margin: auto'></iframe></div>
-        </div>
-        <style>
-          #aadsstickymvdz2m6o:checked + div {
-            display: none;
-          }
-        </style>
-      </div>
-    </div>
-    <!-- END AADS AD UNIT 2459007 -->
-
-    <div class="content-box" id="pageContent">Yüklənir...</div>
-    <p style="color: #64748b; margin-bottom: 25px;">Uğurla yaradılmış xüsusi layihə səhifəsindəsiniz!</p>
-    <button class="btn-cancel" onclick="goBack()">← Geri Qayıt</button>
-  </div>
-
   <script>
+    // Tab dəyişdirmə funksiyası
+    function switchTab(tabName) {
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+
+      if (tabName === 'chat') {
+        document.querySelectorAll('.nav-btn')[0].classList.add('active');
+        document.getElementById('chatSection').classList.add('active');
+      } else {
+        document.querySelectorAll('.nav-btn')[1].classList.add('active');
+        document.getElementById('projectsSection').classList.add('active');
+      }
+    }
+
+    // H&H AI Çat funksiyaları
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendMessage(text, 'user');
+      input.value = '';
+
+      // AI cavab simulyasiyası / cavablandırma
+      setTimeout(() => {
+        let aiReply = "Bu maraqlı sualdır! Sənə bu konuda kömək etməyə hazıram. Başqa nəyi yoxlamaq istərdin?";
+        const lower = text.toLowerCase();
+        
+        if (lower.includes('necəsən') || lower.includes('salam')) {
+          aiReply = "Salam! Çox yaxşıyam, sənə necə kömək edə bilərəm?";
+        } else if (lower.includes('kod') || lower.includes('html')) {
+          aiReply = "HTML, CSS və JavaScript ilə bağlı istədiyin kodu yaza bilərəm. Mənə nə yaratmaq istədiyini de!";
+        } else if (lower.includes('adın nədir')) {
+          aiReply = "Mənim adım H&H AI-dır!";
+        }
+
+        appendMessage(aiReply, 'ai');
+      }, 600);
+    }
+
+    function appendMessage(text, sender) {
+      const chatMessages = document.getElementById('chatMessages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `message ${sender}`;
+      msgDiv.textContent = text;
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function handleKeyPress(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    // Layihə yaratma funksiyaları
     function openModal() {
       document.getElementById('modalOverlay').style.display = 'flex';
       document.getElementById('projectInput').focus();
@@ -225,9 +415,7 @@
       const text = document.getElementById('projectInput').value.trim();
       if (!text) return;
 
-      // Mətni URL üçün təhlükəsiz Base64 formatına salırıq
       const encodedText = encodeURIComponent(btoa(unescape(encodeURIComponent(text))));
-      
       const baseUrl = window.location.origin + window.location.pathname;
       const projectUrl = baseUrl + '?data=' + encodedText;
 
@@ -241,6 +429,7 @@
 
       container.appendChild(card);
       closeModal();
+      switchTab('projects');
     }
 
     function checkURL() {
@@ -248,11 +437,12 @@
       const data = urlParams.get('data');
 
       if (data) {
-        document.getElementById('mainDashboard').style.display = 'none';
+        document.getElementById('navTabs').style.display = 'none';
+        document.getElementById('chatSection').style.display = 'none';
+        document.getElementById('projectsSection').style.display = 'none';
         document.getElementById('projectPage').style.display = 'block';
 
         try {
-          // Linkdəki koda çevrilmiş mətni geri oxuyur
           const decodedText = decodeURIComponent(escape(atob(decodeURIComponent(data))));
           document.getElementById('pageContent').textContent = decodedText;
         } catch (e) {
@@ -265,9 +455,9 @@
       window.location.href = window.location.origin + window.location.pathname;
     }
 
-    // Səhifə açıldıqda URL-i yoxlayırıq
     window.onload = checkURL;
   </script>
 
 </body>
-</html>
+        </html>
+        
