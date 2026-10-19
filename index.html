@@ -1,310 +1,570 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>H&H Console Developer Buisnes</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7C Brawl Stars Turniri - H&H Client</title>
+    <style>
+        :root {
+            --bg-color: #f7f9fa;
+            --primary-blue: #1cb0f6;
+            --primary-blue-dark: #1899d6;
+            --btn-gray: #e5e5e5;
+            --btn-gray-dark: #cdcdcd;
+            --text-color: #4b4b4b;
+            --card-border: #e5e5e5;
+        }
 
-    body {
-      /* Dağ mənzərəsi, bitkoin və qızıl mövzulu fərdi arxa fon */
-      background: linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.88)), 
-                  url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
-      color: #ffffff;
-      min-height: 100vh;
-      padding-top: 90px; /* Reklam örtməsin deyə üst boşluq */
-      padding-bottom: 50px;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Feather', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    /* Üst Sağ Panel: Profil və 3 Nöqtə Menyusu */
-    .top-bar {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 20px;
-      position: relative;
-    }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            padding: 24px;
+            min-height: 580px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #e5e5e5;
+        }
 
-    .profile-avatar {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: #334155;
-      border: 2px solid #ffd700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-    }
+        /* Yuxarı X düyməsi */
+        .close-btn {
+            font-size: 24px;
+            color: #afafaf;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        .close-btn:hover {
+            background: #f1f1f1;
+        }
 
-    .profile-avatar svg {
-      width: 26px;
-      height: 26px;
-      fill: #cbd5e1;
-    }
+        /* Robot və Danışıq Balonu */
+        .robot-section {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
 
-    .menu-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 215, 0, 0.4);
-      color: #ffd700;
-      font-size: 24px;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.3s;
-      backdrop-filter: blur(5px);
-    }
+        .robot-container {
+            width: 110px;
+            height: 120px;
+            flex-shrink: 0;
+            position: relative;
+        }
 
-    .menu-btn:hover {
-      background: rgba(255, 215, 0, 0.2);
-    }
+        /* SVG Robot Stili */
+        .robot-svg {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
 
-    /* Açılan Menyu */
-    .dropdown-menu {
-      position: absolute;
-      top: 55px;
-      right: 0;
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid #ffd700;
-      border-radius: 12px;
-      width: 180px;
-      display: none;
-      flex-direction: column;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
-      z-index: 1000;
-      overflow: hidden;
-    }
+        .writing-animation .arm-pen {
+            animation: write 0.4s infinite alternate ease-in-out;
+            transform-origin: 75px 65px;
+        }
 
-    .dropdown-menu.show {
-      display: flex;
-    }
+        .writing-animation .robot-head {
+            animation: nod 0.4s infinite alternate ease-in-out;
+            transform-origin: 50px 35px;
+        }
 
-    .dropdown-menu a {
-      color: #f8fafc;
-      text-decoration: none;
-      padding: 12px 16px;
-      font-size: 14px;
-      transition: 0.2s;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
+        @keyframes write {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-15deg); }
+        }
 
-    .dropdown-menu a:hover {
-      background: rgba(255, 215, 0, 0.15);
-      color: #ffd700;
-    }
+        @keyframes nod {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(5deg); }
+        }
 
-    /* Böyük Qızılı Başlıq */
-    .main-title {
-      text-align: center;
-      font-size: 2.2rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      background: linear-gradient(135deg, #fff7ad 0%, #ffa900 50%, #e6ac00 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-      margin: 10px 0 30px 0;
-      letter-spacing: 1px;
-    }
+        .speech-bubble {
+            position: relative;
+            background: #ffffff;
+            border: 2px solid #e5e5e5;
+            border-radius: 18px;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.4;
+            color: #4b4b4b;
+            flex-grow: 1;
+            box-shadow: 0 4px 0 #e5e5e5;
+        }
 
-    /* Bölmə Kartları */
-    .card {
-      background: rgba(30, 41, 59, 0.75);
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      border-radius: 16px;
-      padding: 25px;
-      margin-bottom: 25px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 25px;
+            border-width: 8px 12px 8px 0;
+            border-style: solid;
+            border-color: transparent #e5e5e5 transparent transparent;
+            display: block;
+            width: 0;
+        }
 
-    .card h3 {
-      color: #ffd700;
-      margin-bottom: 15px;
-      font-size: 1.3rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 26px;
+            border-width: 7px 10px 7px 0;
+            border-style: solid;
+            border-color: transparent #ffffff transparent transparent;
+            display: block;
+            width: 0;
+        }
 
-    /* Məqalələr */
-    .article-text {
-      line-height: 1.6;
-      color: #e2e8f0;
-      font-size: 0.95rem;
-    }
+        /* Variantlar Siyahısı */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
 
-    .doc-link-btn {
-      display: inline-block;
-      margin-top: 15px;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
+        /* Duolingo Stilli Düymə */
+        .option-btn {
+            background: #ffffff;
+            border: 2px solid var(--btn-gray-dark);
+            border-bottom-width: 5px;
+            border-radius: 16px;
+            padding: 14px 18px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #4b4b4b;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-    .doc-link-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
-    }
+        .option-btn:hover {
+            background: #f7f7f7;
+        }
 
-    /* Şöbələrimiz Bölməsi */
-    .sub-title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #ffd700;
-      text-align: center;
-      margin-bottom: 20px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    }
+        .option-btn:active, .option-btn.selected {
+            border-bottom-width: 2px;
+            transform: translateY(3px);
+        }
 
-    .branches-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+        .option-btn.selected {
+            border-color: var(--primary-blue-dark);
+            background: #ddf4ff;
+            color: #1899d6;
+        }
 
-    .branch-btn {
-      display: block;
-      background: linear-gradient(90deg, rgba(30, 41, 59, 0.9), rgba(51, 65, 85, 0.9));
-      border: 1px solid #ffd700;
-      color: #ffffff;
-      padding: 16px 20px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1rem;
-      text-align: center;
-      transition: all 0.3s;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
+        /* Aşağı Təsdiq Paneli */
+        .footer-action {
+            border-top: 2px solid #f1f1f1;
+            padding-top: 15px;
+        }
 
-    .branch-btn:hover {
-      background: linear-gradient(90deg, #ffd700, #ffa900);
-      color: #0f172a;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
-    }
+        .submit-btn {
+            width: 100%;
+            background: var(--primary-blue);
+            border: none;
+            border-bottom: 5px solid var(--primary-blue-dark);
+            border-radius: 16px;
+            padding: 14px;
+            color: white;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.1s;
+        }
 
-    @media (max-width: 600px) {
-      .main-title {
-        font-size: 1.6rem;
-      }
-    }
-  </style>
+        .submit-btn:hover {
+            filter: brightness(1.05);
+        }
+
+        .submit-btn:active {
+            border-bottom-width: 0px;
+            transform: translateY(5px);
+        }
+
+        .submit-btn:disabled {
+            background: #e5e5e5;
+            border-color: #cdcdcd;
+            color: #afafaf;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Ekran Keçidləri */
+        .screen {
+            display: none;
+            height: 100%;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Yüklənmə Ekranı */
+        .loading-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .hh-logo {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #1cb0f6, #0077ff);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: 900;
+            box-shadow: 0 8px 0 #0056b3;
+            margin-bottom: 25px;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .loading-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #4b4b4b;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 16px;
+            background: #e5e5e5;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #1cb0f6;
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+
+        /* Lobi Ekranı */
+        .lobby-screen {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .lobby-card {
+            background: #fff8e7;
+            border: 2px solid #ffd56b;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .lobby-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #d97706;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lobby-desc {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #6b7280;
+        }
+
+        .qr-placeholder {
+            margin: 20px auto;
+            width: 140px;
+            height: 140px;
+            border: 2px dashed #bbb;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 12px;
+            background: #fafafa;
+        }
+
+        .player-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- BEGIN AADS AD UNIT 2459007 (Həmişə Üstdə Sabit Reklam) -->
-  <div style="position: absolute; z-index: 99999">
-    <input autocomplete="off" type="checkbox" id="aadsstickymvdz2m6o" hidden />
-    <div style="padding-top: auto; padding-bottom: 0;">
-      <div style="width:100%;height:auto;position:fixed;text-align:center;font-size:0;top:0;left:0;right:0;margin:auto">
-        <label for="aadsstickymvdz2m6o" style="top: 50%;transform: translateY(-50%);right:24px;; position: absolute;border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px;z-index: 99999;cursor:pointer">
-          <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490">
-            <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
-          </svg>
-        </label>
-        <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;"><iframe data-aa=2459007 src=//acceptable.a-ads.com/2459007/?size=Adaptive style='border:0; padding:0; width:70%; height:auto; overflow:hidden; margin: auto'></iframe></div>
-      </div>
-      <style>
-        #aadsstickymvdz2m6o:checked + div {
-          display: none;
-        }
-      </style>
-    </div>
-  </div>
-  <!-- END AADS AD UNIT 2459007 -->
+<div class="container">
+    <div class="close-btn" onclick="resetApp()">✕</div>
 
-  <div class="container">
-    
-    <!-- Üst Bar: Profil Şəkli və 3 Nöqtə Menyusu -->
-    <div class="top-bar">
-      <div class="profile-avatar" title="Profilim">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-        </svg>
-      </div>
-      <button class="menu-btn" onclick="toggleMenu()" title="Menyu">⋮</button>
-      
-      <!-- Açılan Menyu -->
-      <div class="dropdown-menu" id="dropdownMenu">
-        <a href="#">👤 Profilim</a>
-        <a href="#">⚙️ Ayarlar</a>
-        <a href="#">🤝 Dəstək</a>
-        <a href="#">❓ Yardım</a>
-      </div>
-    </div>
+    <!-- EKRAN 1: İLK SUAL -->
+    <div id="screen1" class="screen active">
+        <div>
+            <div class="robot-section">
+                <div class="robot-container" id="robot1">
+                    <!-- Mavi H&H Tişortlu Robot SVG -->
+                    <svg class="robot-svg" viewBox="0 0 100 110">
+                        <!-- Head / Baş -->
+                        <g class="robot-head">
+                            <rect x="25" y="15" width="50" height="35" rx="10" fill="#d1d5db" stroke="#374151" stroke-width="2.5"/>
+                            <rect x="32" y="22" width="36" height="20" rx="5" fill="#111827"/>
+                            <!-- Eyes -->
+                            <circle cx="42" cy="32" r="4" fill="#60a5fa"/>
+                            <circle cx="58" cy="32" r="4" fill="#60a5fa"/>
+                            <!-- Antenna -->
+                            <line x1="50" y1="15" x2="50" y2="5" stroke="#374151" stroke-width="2.5"/>
+                            <circle cx="50" cy="4" r="3" fill="#ef4444"/>
+                        </g>
 
-    <!-- Qızılı Böyük Başlıq -->
-    <h1 class="main-title">H&amp;H Console Developer Buisnes</h1>
+                        <!-- Body / Gövdə (Mavi Tişortlu) -->
+                        <rect x="20" y="52" width="60" height="40" rx="8" fill="#1cb0f6" stroke="#0284c7" stroke-width="2.5"/>
+                        <!-- H&H Text on Shirt -->
+                        <text x="50" y="77" font-size="14" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial">H&H</text>
 
-    <!-- Məqalələr Bölməsi -->
-    <div class="card">
-      <h3>📚 Məqalələr &amp; Məlumat</h3>
-      <p class="article-text">
-        <strong>H&amp;H Buisnes haqqında:</strong> Biz innovativ rəqəmsal həllər, veb layihələr və konsol proqramlaşdırma sahəsində geniş imkanlar təqdim edirik. Məqsədimiz istifadəçilərə rahat və təhlükəsiz platformalar təqdim etməkdir.
-      </p>
-      <a href="https://docs.google.com/document/d/1PkSdj7rNqGetnv7R78yFpa6BcBij2idY5AgdOcGxLcs/edit?usp=drivesdk" target="_blank" class="doc-link-btn">
-        📄 Yardım və Dəstək Məqaləsini Oxu
-      </a>
-    </div>
+                        <!-- Arms & Notepad -->
+                        <g class="arm-pen">
+                            <!-- Left arm holding pad -->
+                            <path d="M 20 60 L 10 75 L 25 80" fill="none" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
+                            <!-- Notepad -->
+                            <rect x="5" y="70" width="22" height="26" rx="3" fill="#fff" stroke="#374151" stroke-width="1.5"/>
+                            <line x1="9" y1="76" x2="21" y2="76" stroke="#9ca3af" stroke-width="1.5"/>
+                            <line x1="9" y1="82" x2="21" y2="82" stroke="#9ca3af" stroke-width="1.5"/>
+                            <!-- Right arm with pen -->
+                            <path d="M 80 60 L 90 72 L 75 80" fill="none" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="75" y1="80" x2="22" y2="82" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="speech-bubble" id="bubble1">
+                    7C Brawl Stars turnirinə qatılmaq istəyirsən?
+                </div>
+            </div>
 
-    <!-- Şöbələrimiz Bölməsi -->
-    <div class="card">
-      <h2 class="sub-title">Şöbələrimiz ↓</h2>
-      <div class="branches-grid">
-        <a href="https://agasefai.github.io" target="_blank" class="branch-btn">agasefai.github.io</a>
-        <a href="https://hhlogin.github.io" target="_blank" class="branch-btn">hhlogin.github.io</a>
-        <a href="https://hhiletisim.github.io" target="_blank" class="branch-btn">hhiletisim.github.io</a>
-      </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="selectOption1(this, 'yes')">
+                    <span>Bəli</span>
+                </button>
+                <button class="option-btn" onclick="selectOption1(this, 'think')">
+                    <span>Hələ fikirləşmirəm</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="footer-action">
+            <button class="submit-btn" id="nextBtn1" disabled onclick="handleStep1()">DEVAM ET</button>
+        </div>
     </div>
 
-  </div>
+    <!-- EKRAN 2: İSTİFADƏÇİ SEÇİMİ -->
+    <div id="screen2" class="screen">
+        <div>
+            <div class="robot-section">
+                <div class="robot-container" id="robot2">
+                    <!-- Eyni Robot SVG -->
+                    <svg class="robot-svg" viewBox="0 0 100 110">
+                        <g class="robot-head">
+                            <rect x="25" y="15" width="50" height="35" rx="10" fill="#d1d5db" stroke="#374151" stroke-width="2.5"/>
+                            <rect x="32" y="22" width="36" height="20" rx="5" fill="#111827"/>
+                            <circle cx="42" cy="32" r="4" fill="#60a5fa"/>
+                            <circle cx="58" cy="32" r="4" fill="#60a5fa"/>
+                            <line x1="50" y1="15" x2="50" y2="5" stroke="#374151" stroke-width="2.5"/>
+                            <circle cx="50" cy="4" r="3" fill="#ef4444"/>
+                        </g>
+                        <rect x="20" y="52" width="60" height="40" rx="8" fill="#1cb0f6" stroke="#0284c7" stroke-width="2.5"/>
+                        <text x="50" y="77" font-size="14" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial">H&H</text>
+                        <g class="arm-pen">
+                            <path d="M 20 60 L 10 75 L 25 80" fill="none" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
+                            <rect x="5" y="70" width="22" height="26" rx="3" fill="#fff" stroke="#374151" stroke-width="1.5"/>
+                            <line x1="9" y1="76" x2="21" y2="76" stroke="#9ca3af" stroke-width="1.5"/>
+                            <line x1="9" y1="82" x2="21" y2="82" stroke="#9ca3af" stroke-width="1.5"/>
+                            <path d="M 80 60 L 90 72 L 75 80" fill="none" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="75" y1="80" x2="22" y2="82" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="speech-bubble">
+                    Sən aşağıdakılardan hansısan?
+                </div>
+            </div>
 
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById('dropdownMenu');
-      menu.classList.toggle('show');
+            <div class="options-list">
+                <button class="option-btn" onclick="selectUser(this, 'Hüseyn.Ə')">Hüseyn.Ə</button>
+                <button class="option-btn" onclick="selectUser(this, 'Eldar')">Eldar</button>
+                <button class="option-btn" onclick="selectUser(this, 'Hüseyn.B')">Hüseyn.B</button>
+                <button class="option-btn" onclick="selectUser(this, 'Kənan.V')">Kənan.V</button>
+                <button class="option-btn" onclick="selectUser(this, 'Kənan.A')">Kənan.A</button>
+                <button class="option-btn" onclick="selectUser(this, 'Kənan.M')">Kənan.M</button>
+                <button class="option-btn" onclick="selectUser(this, 'Mələk.B')">Mələk.B</button>
+                <button class="option-btn" onclick="selectUser(this, 'Həsən.B')">Həsən.B</button>
+            </div>
+        </div>
+
+        <div class="footer-action">
+            <button class="submit-btn" id="nextBtn2" disabled onclick="startLoading()">TƏSDİQLƏ</button>
+        </div>
+    </div>
+
+    <!-- EKRAN 3: YÜKLƏNMƏ (LOADING) -->
+    <div id="screen3" class="screen">
+        <div class="loading-screen">
+            <div class="hh-logo">H&H</div>
+            <div class="loading-text">H&H şəxsi client yaradılır...</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EKRAN 4: LOBİ -->
+    <div id="screen4" class="screen">
+        <div class="lobby-screen">
+            <div class="player-badge" id="playerBadge">Oyunçu: -</div>
+            <h2 style="font-size: 22px; font-weight: 800; color: #111827;">H&H Turniket Lobi</h2>
+
+            <div class="lobby-card">
+                <div class="lobby-title">
+                    <span>⚠️</span> Məlumat
+                </div>
+                <div class="lobby-desc">
+                    Hələ layihə yaxud Turnir planlaşdırılmayıb! Sonra yenidən yoxlayın. Əgər hansısa layihə olsa QR kod ilə otağa daxil olub turniketə qatılacaqsınız və sinifin ən yaxşı oyunçusu seçiləcəksiniz.
+                </div>
+            </div>
+
+            <div class="qr-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                    <path d="M14 14h3v3h-3z"></path>
+                    <path d="M18 18h3v3h-3z"></path>
+                    <path d="M14 18h3v3h-3z"></path>
+                </div style="margin-top: 6px;">QR Kod Gözlənilir</div>
+            </div>
+        </div>
+
+        <div class="footer-action">
+            <button class="submit-btn" onclick="resetApp()">BAŞA QAYIT</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let selectedStep1 = null;
+    let selectedUser = null;
+
+    function triggerRobotAnimation(robotId) {
+        const robot = document.getElementById(robotId);
+        robot.classList.add('writing-animation');
+        setTimeout(() => {
+            robot.classList.remove('writing-animation');
+        }, 1200);
     }
 
-    // Ekranın başqa yerinə kliklədikdə menyunu bağlamaq
-    window.onclick = function(event) {
-      if (!event.target.matches('.menu-btn')) {
-        const dropdowns = document.getElementsByClassName("dropdown-menu");
-        for (let i = 0; i < dropdowns.length; i++) {
-          const openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-          }
-        }
-      }
+    function selectOption1(element, val) {
+        selectedStep1 = val;
+        document.querySelectorAll('#screen1 .option-btn').forEach(btn => btn.classList.remove('selected'));
+        element.classList.add('selected');
+        document.getElementById('nextBtn1').removeAttribute('disabled');
+        
+        // Robotun qeyd etmə animasiyasını işə salırıq
+        triggerRobotAnimation('robot1');
     }
-  </script>
 
-</body>
-  </html>
-      
+    function handleStep1() {
+        if (selectedStep1 === 'think') {
+            document.getElementById('bubble1').innerText = "Oldu! Hələlik fikirləş 1 oktyabrdan - 10 Marta qədər gələ bilərsən hələlik!";
+            document.querySelectorAll('#screen1 .option-btn').forEach(btn => btn.style.display = 'none');
+            document.getElementById('nextBtn1').style.display = 'none';
+        } else if (selectedStep1 === 'yes') {
+            showScreen('screen2');
+        }
+    }
+
+    function selectUser(element, userName) {
+        selectedUser = userName;
+        document.querySelectorAll('#screen2 .option-btn').forEach(btn => btn.classList.remove('selected'));
+        element.classList.add('selected');
+        document.getElementById('nextBtn2').removeAttribute('disabled');
+
+        // Robotun qeyd etmə animasiyasını işə salırıq
+        triggerRobotAnimation('robot2');
+    }
+
+    function startLoading() {
+        showScreen('screen3');
+        const progressBar = document.getElementById('progressBar');
+        let width = 0;
+        
+        // 4 saniyəlik yüklənmə taymeri (40ms * 100 = 4000ms = 4 saniyə)
+        const interval = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(interval);
+                document.getElementById('playerBadge').innerText = "Oyunçu: " + selectedUser;
+                showScreen('screen4');
+            } else {
+                width++;
+               
