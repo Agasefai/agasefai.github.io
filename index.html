@@ -142,6 +142,29 @@
             box-shadow: 0 10px 20px rgba(255, 0, 122, 0.25);
         }
 
+        .btn-google {
+            width: 100%;
+            background: #ffffff;
+            color: #334155;
+            border: 1px solid var(--border-light);
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            margin-top: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: background 0.2s;
+        }
+
+        .btn-google:active {
+            background: #f1f5f9;
+        }
+
         .sub-text {
             font-size: 12px;
             color: var(--text-muted);
@@ -383,7 +406,7 @@
             max-width: 480px;
             border-radius: 28px 28px 0 0;
             padding: 24px;
-            max-height: 90vh;
+            max-height: 85vh;
             overflow-y: auto;
             position: relative;
         }
@@ -396,18 +419,25 @@
             border-radius: 28px 28px 0 0;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
+        }
+
+        .modal-header-text {
+            flex: 1;
+            padding-right: 10px;
         }
 
         .modal-header h3 {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 800;
+            line-height: 1.3;
         }
 
         .modal-header p {
-            font-size: 12px;
+            font-size: 11px;
             opacity: 0.8;
-            margin-top: 4px;
+            margin-top: 3px;
+            line-height: 1.3;
         }
 
         .close-btn {
@@ -416,9 +446,13 @@
             color: #fff;
             width: 32px;
             height: 32px;
+            min-width: 32px;
             border-radius: 50%;
             cursor: pointer;
             font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .form-group {
@@ -492,8 +526,8 @@
                 hhmyclass.com
             </div>
             <div class="header-actions">
-                <button class="icon-btn" onclick="document.getElementById('cabinetModal').style.display='flex'"><i class="fa-solid fa-phone"></i></button>
-                <button class="icon-btn" onclick="document.getElementById('cabinetModal').style.display='flex'"><i class="fa-solid fa-bars"></i></button>
+                <button class="icon-btn" onclick="openRegisterModal()"><i class="fa-solid fa-phone"></i></button>
+                <button class="icon-btn" onclick="openRegisterModal()"><i class="fa-solid fa-bars"></i></button>
             </div>
         </header>
 
@@ -502,6 +536,7 @@
             <h1>İmtahanlarını idarə et,<br><span>nəticələrini izlə</span></h1>
             <p>Qeydiyyat, mövzular, nəticələr və imtahan mərkəzləri — hamısı bir yerdə, təksəxsi kabinetdən.</p>
             
+            <!-- İmtahan Nəticələri düyməsi (AÇILIR) -->
             <button class="btn-primary" onclick="document.getElementById('resultModal').style.display='flex'">
                 <i class="fa-regular fa-file-lines"></i>
                 İmtahan Nəticələri
@@ -519,12 +554,12 @@
                 <span class="tag-pill" style="opacity: 0.7;">Qeydiyyat bağlıdır</span>
             </div>
 
-            <div class="select-box" onclick="alert('Sinif seçimləri tezliklə aktivləşdiriləcək.')">
+            <div class="select-box" onclick="openRegisterModal()">
                 <span>SİNİF SEÇİN: 01 Noyabr — IV VƏ VI SİNİFLƏR I</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
 
-            <button class="btn-primary btn-accent" onclick="document.getElementById('cabinetModal').style.display='flex'">
+            <button class="btn-primary btn-accent" onclick="openRegisterModal()">
                 Qeydiyyatdan keç <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
@@ -567,7 +602,7 @@
                 </ul>
                 <div class="status-line">
                     <span class="status-tag"><i class="fa-solid fa-circle-check"></i> Qeydiyyat açıqdır</span>
-                    <button class="btn-primary btn-accent btn-sm" onclick="document.getElementById('cabinetModal').style.display='flex'">Qeydiyyat</button>
+                    <button class="btn-primary btn-accent btn-sm" onclick="openRegisterModal()">Qeydiyyat</button>
                 </div>
             </div>
         </div>
@@ -581,7 +616,7 @@
         </div>
 
         <div class="grid-2">
-            <div class="service-card" onclick="document.getElementById('cabinetModal').style.display='flex'">
+            <div class="service-card" onclick="openRegisterModal()">
                 <div class="service-icon"><i class="fa-regular fa-file-lines"></i></div>
                 <h4>İmtahana qeydiyyat</h4>
                 <p>Onlayn, bir neçə dəqiqəyə</p>
@@ -591,12 +626,12 @@
                 <h4>Nəticə yoxla</h4>
                 <p>İş nömrəsi və telefonla</p>
             </div>
-            <div class="service-card" onclick="document.getElementById('topicsModal').style.display='flex'">
+            <div class="service-card" onclick="openRegisterModal()">
                 <div class="service-icon"><i class="fa-solid fa-book"></i></div>
                 <h4>Mövzu siyahısı</h4>
                 <p>Fənn və sinif üzrə</p>
             </div>
-            <div class="service-card" onclick="alert('hhmyclass İmtahan Mərkəzi: Mərkəzi Filial')">
+            <div class="service-card" onclick="openRegisterModal()">
                 <div class="service-icon"><i class="fa-solid fa-house"></i></div>
                 <h4>İmtahan mərkəzləri</h4>
                 <p>Ünvan, telefon, xəritə</p>
@@ -605,15 +640,15 @@
     </div>
 
     <!-- FLOATING CHAT BUTTON -->
-    <button class="fab-chat" onclick="document.getElementById('chatModal').style.display='flex'">
+    <button class="fab-chat" onclick="openRegisterModal()">
         <i class="fa-solid fa-robot"></i>
     </button>
 
-    <!-- RESULT MODAL -->
+    <!-- RESULT MODAL (İŞLƏYİR) -->
     <div class="modal-overlay" id="resultModal">
         <div class="modal-content">
             <div class="modal-header">
-                <div>
+                <div class="modal-header-text">
                     <h3>İmtahan Nəticələri</h3>
                     <p>Nəticənizi görmək üçün iş və telefon nömrənizi daxil edin.</p>
                 </div>
@@ -633,20 +668,4 @@
             </form>
 
             <div class="alert-box" id="resultAlert">
-                <div class="alert-title"><i class="fa-solid fa-circle-exclamation"></i> Məlumat:</div>
-                <div class="alert-desc">Hələ imtahanlar yoxlanılmayıb.</div>
-            </div>
-
-            <p style="font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 16px;">
-                Məlumatlarınız yalnız nəticənin tapılması üçün istifadə olunur.
-            </p>
-        </div>
-    </div>
-
-    <!-- CABINET MODAL -->
-    <div class="modal-overlay" id="cabinetModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h3>Daxil ol</h3>
-                    <p>Şəxsi kabinetinizə da
+                <div class="a
