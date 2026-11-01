@@ -3,568 +3,650 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>7C Brawl Stars Turniri - H&H Client</title>
+    <title>hhmyclass.com — İmtahan Portalı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --bg-color: #f7f9fa;
-            --primary-blue: #1cb0f6;
-            --primary-blue-dark: #1899d6;
-            --btn-gray: #e5e5e5;
-            --btn-gray-dark: #cdcdcd;
-            --text-color: #4b4b4b;
-            --card-border: #e5e5e5;
+            --bg-color: #f6f7fb;
+            --card-bg: #ffffff;
+            --primary-purple: #1e1b4b;
+            --deep-purple: #2e1065;
+            --accent-pink: #ff007a;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-light: #e2e8f0;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Feather', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            user-select: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-dark);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
         }
 
-        .container {
+        .app-container {
             width: 100%;
             max-width: 480px;
-            background: #ffffff;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            padding: 24px;
-            min-height: 580px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: var(--bg-color);
+            min-height: 100vh;
             position: relative;
-            overflow: hidden;
-            border: 2px solid #e5e5e5;
+            padding-bottom: 90px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.05);
         }
 
-        /* Yuxarı X düyməsi */
-        .close-btn {
-            font-size: 24px;
-            color: #afafaf;
-            cursor: pointer;
-            width: 32px;
-            height: 32px;
+        /* HEADER */
+        header {
+            background: #ffffff;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--deep-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo i {
+            color: var(--accent-pink);
+            -webkit-text-fill-color: initial;
+            font-size: 18px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border-light);
+            background: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            transition: background 0.2s;
-        }
-        .close-btn:hover {
-            background: #f1f1f1;
+            color: var(--primary-purple);
+            cursor: pointer;
         }
 
-        /* Robot və Danışıq Balonu */
-        .robot-section {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            margin-top: 10px;
+        /* HERO SECTION */
+        .hero {
+            padding: 24px 20px 10px 20px;
+        }
+
+        .hero h1 {
+            font-size: 26px;
+            font-weight: 800;
+            line-height: 1.25;
+            color: var(--primary-purple);
+            margin-bottom: 12px;
+        }
+
+        .hero h1 span {
+            color: var(--accent-pink);
+        }
+
+        .hero p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
             margin-bottom: 20px;
         }
 
-        .robot-container {
-            width: 110px;
-            height: 120px;
-            flex-shrink: 0;
-            position: relative;
-        }
-
-        /* SVG Robot Stili */
-        .robot-svg {
+        .btn-primary {
             width: 100%;
-            height: 100%;
-            transition: transform 0.3s ease;
+            background: var(--primary-purple);
+            color: #ffffff;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(30, 27, 75, 0.2);
         }
 
-        .writing-animation .arm-pen {
-            animation: write 0.4s infinite alternate ease-in-out;
-            transform-origin: 75px 65px;
+        .btn-accent {
+            background: linear-gradient(135deg, #ff007a, #e0006c);
+            color: #fff;
+            box-shadow: 0 10px 20px rgba(255, 0, 122, 0.25);
         }
 
-        .writing-animation .robot-head {
-            animation: nod 0.4s infinite alternate ease-in-out;
-            transform-origin: 50px 35px;
+        .sub-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            text-align: center;
         }
 
-        @keyframes write {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(-15deg); }
+        /* CARD STYLES */
+        .card-dark {
+            background: linear-gradient(160deg, #2e1065 0%, #1e1b4b 100%);
+            color: #ffffff;
+            border-radius: 24px;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
-        @keyframes nod {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(5deg); }
+        .badge-pink {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            background: rgba(255, 0, 122, 0.2);
+            color: #ff66b2;
         }
 
-        .speech-bubble {
-            position: relative;
-            background: #ffffff;
-            border: 2px solid #e5e5e5;
+        .card-dark h2 {
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.35;
+            margin-bottom: 16px;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .tag-pill {
+            background: rgba(255, 255, 255, 0.12);
+            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .select-box {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: #fff;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        /* CALENDAR SECTION */
+        .section-header {
+            padding: 10px 20px 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .section-title-sub {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary-purple);
+        }
+
+        .exam-item {
+            background: #fff;
             border-radius: 18px;
             padding: 16px;
-            font-size: 18px;
-            font-weight: 700;
-            line-height: 1.4;
-            color: #4b4b4b;
-            flex-grow: 1;
-            box-shadow: 0 4px 0 #e5e5e5;
-        }
-
-        .speech-bubble::before {
-            content: '';
-            position: absolute;
-            left: -12px;
-            top: 25px;
-            border-width: 8px 12px 8px 0;
-            border-style: solid;
-            border-color: transparent #e5e5e5 transparent transparent;
-            display: block;
-            width: 0;
-        }
-
-        .speech-bubble::after {
-            content: '';
-            position: absolute;
-            left: -9px;
-            top: 26px;
-            border-width: 7px 10px 7px 0;
-            border-style: solid;
-            border-color: transparent #ffffff transparent transparent;
-            display: block;
-            width: 0;
-        }
-
-        /* Variantlar Siyahısı */
-        .options-list {
+            margin: 12px 20px;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-            max-height: 320px;
-            overflow-y: auto;
-            padding-right: 4px;
+            gap: 14px;
+            align-items: flex-start;
+            border: 1px solid var(--border-light);
         }
 
-        /* Duolingo Stilli Düymə */
-        .option-btn {
-            background: #ffffff;
-            border: 2px solid var(--btn-gray-dark);
-            border-bottom-width: 5px;
-            border-radius: 16px;
-            padding: 14px 18px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #4b4b4b;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.1s ease;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .option-btn:hover {
-            background: #f7f7f7;
-        }
-
-        .option-btn:active, .option-btn.selected {
-            border-bottom-width: 2px;
-            transform: translateY(3px);
-        }
-
-        .option-btn.selected {
-            border-color: var(--primary-blue-dark);
-            background: #ddf4ff;
-            color: #1899d6;
-        }
-
-        /* Aşağı Təsdiq Paneli */
-        .footer-action {
-            border-top: 2px solid #f1f1f1;
-            padding-top: 15px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--primary-blue);
-            border: none;
-            border-bottom: 5px solid var(--primary-blue-dark);
-            border-radius: 16px;
-            padding: 14px;
-            color: white;
-            font-size: 16px;
-            font-weight: 800;
-            letter-spacing: 0.8px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.1s;
-        }
-
-        .submit-btn:hover {
-            filter: brightness(1.05);
-        }
-
-        .submit-btn:active {
-            border-bottom-width: 0px;
-            transform: translateY(5px);
-        }
-
-        .submit-btn:disabled {
-            background: #e5e5e5;
-            border-color: #cdcdcd;
-            color: #afafaf;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Ekran Keçidləri */
-        .screen {
-            display: none;
-            height: 100%;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .screen.active {
-            display: flex;
-        }
-
-        /* Yüklənmə Ekranı */
-        .loading-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
+        .date-badge {
+            background: #ffe6f2;
+            color: var(--accent-pink);
+            border-radius: 12px;
+            padding: 8px 12px;
             text-align: center;
-            padding: 20px 0;
+            min-width: 54px;
         }
 
-        .hh-logo {
-            width: 90px;
-            height: 90px;
-            background: linear-gradient(135deg, #1cb0f6, #0077ff);
-            border-radius: 22px;
+        .date-badge .day {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .date-badge .month {
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .exam-details {
+            flex: 1;
+        }
+
+        .exam-details ul {
+            list-style: none;
+            margin-bottom: 10px;
+        }
+
+        .exam-details li {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-purple);
+            margin-bottom: 4px;
+            position: relative;
+            padding-left: 12px;
+        }
+
+        .exam-details li::before {
+            content: "•";
+            color: var(--accent-pink);
+            position: absolute;
+            left: 0;
+        }
+
+        .status-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .status-tag {
+            font-size: 11px;
+            font-weight: 600;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 12px;
+            border-radius: 8px;
+            width: auto;
+        }
+
+        /* GRID SERVICES */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 12px 20px;
+        }
+
+        .service-card {
+            background: #fff;
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+        }
+
+        .service-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #f1f5f9;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 32px;
-            font-weight: 900;
-            box-shadow: 0 8px 0 #0056b3;
-            margin-bottom: 25px;
-            animation: pulse 1.5s infinite alternate;
+            color: var(--accent-pink);
+            margin-bottom: 12px;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
-        }
-
-        .loading-text {
-            font-size: 18px;
+        .service-card h4 {
+            font-size: 13px;
             font-weight: 700;
-            color: #4b4b4b;
-            margin-bottom: 20px;
+            color: var(--primary-purple);
+            margin-bottom: 4px;
         }
 
-        .progress-bar-container {
+        .service-card p {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        /* FLOATING CHAT BUTTON */
+        .fab-chat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: var(--accent-pink);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 8px 20px rgba(255, 0, 122, 0.4);
+            cursor: pointer;
+            z-index: 100;
+            border: none;
+        }
+
+        /* MODAL STYLES */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #ffffff;
             width: 100%;
-            height: 16px;
-            background: #e5e5e5;
-            border-radius: 10px;
-            overflow: hidden;
+            max-width: 480px;
+            border-radius: 28px 28px 0 0;
+            padding: 24px;
+            max-height: 90vh;
+            overflow-y: auto;
             position: relative;
         }
 
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background: #1cb0f6;
-            border-radius: 10px;
-            transition: width 0.1s linear;
+        .modal-header {
+            background: var(--primary-purple);
+            color: #fff;
+            margin: -24px -24px 20px -24px;
+            padding: 20px 24px;
+            border-radius: 28px 28px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         }
 
-        /* Lobi Ekranı */
-        .lobby-screen {
-            text-align: center;
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .modal-header p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 14px;
+            background: #f8fafc;
+            outline: none;
+        }
+
+        .alert-box {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .alert-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #be123c;
+            margin-bottom: 4px;
+        }
+
+        .alert-desc {
+            font-size: 12px;
+            color: #9f1239;
+            font-weight: 600;
+        }
+
+        .chat-body {
+            height: 180px;
             padding: 10px 0;
         }
 
-        .lobby-card {
-            background: #fff8e7;
-            border: 2px solid #ffd56b;
-            border-radius: 16px;
-            padding: 20px;
-            margin-top: 15px;
-            text-align: left;
-        }
-
-        .lobby-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: #d97706;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .lobby-desc {
-            font-size: 15px;
-            line-height: 1.5;
-            color: #6b7280;
-        }
-
-        .qr-placeholder {
-            margin: 20px auto;
-            width: 140px;
-            height: 140px;
-            border: 2px dashed #bbb;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-            font-size: 12px;
-            background: #fafafa;
-        }
-
-        .player-badge {
-            display: inline-block;
-            background: #e0f2fe;
-            color: #0369a1;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 10px;
+        .chat-bubble {
+            background: #f1f5f9;
+            color: var(--text-dark);
+            padding: 12px 16px;
+            border-radius: 14px;
+            border-bottom-left-radius: 2px;
+            font-size: 13px;
+            line-height: 1.4;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="close-btn" onclick="resetApp()">✕</div>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                hhmyclass.com
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" onclick="document.getElementById('cabinetModal').style.display='flex'"><i class="fa-solid fa-phone"></i></button>
+                <button class="icon-btn" onclick="document.getElementById('cabinetModal').style.display='flex'"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </header>
 
-    <!-- EKRAN 1: İLK SUAL -->
-    <div id="screen1" class="screen active">
-        <div>
-            <div class="robot-section">
-                <div class="robot-container" id="robot1">
-                    <!-- Mavi H&H Tişortlu Robot SVG -->
-                    <svg class="robot-svg" viewBox="0 0 100 110">
-                        <!-- Head / Baş -->
-                        <g class="robot-head">
-                            <rect x="25" y="15" width="50" height="35" rx="10" fill="#d1d5db" stroke="#374151" stroke-width="2.5"/>
-                            <rect x="32" y="22" width="36" height="20" rx="5" fill="#111827"/>
-                            <!-- Eyes -->
-                            <circle cx="42" cy="32" r="4" fill="#60a5fa"/>
-                            <circle cx="58" cy="32" r="4" fill="#60a5fa"/>
-                            <!-- Antenna -->
-                            <line x1="50" y1="15" x2="50" y2="5" stroke="#374151" stroke-width="2.5"/>
-                            <circle cx="50" cy="4" r="3" fill="#ef4444"/>
-                        </g>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <h1>İmtahanlarını idarə et,<br><span>nəticələrini izlə</span></h1>
+            <p>Qeydiyyat, mövzular, nəticələr və imtahan mərkəzləri — hamısı bir yerdə, təksəxsi kabinetdən.</p>
+            
+            <button class="btn-primary" onclick="document.getElementById('resultModal').style.display='flex'">
+                <i class="fa-regular fa-file-lines"></i>
+                İmtahan Nəticələri
+            </button>
+            <p class="sub-text">İş və telefon nömrəsi ilə dərhal yoxlayın.</p>
+        </section>
 
-                        <!-- Body / Gövdə (Mavi Tişortlu) -->
-                        <rect x="20" y="52" width="60" height="40" rx="8" fill="#1cb0f6" stroke="#0284c7" stroke-width="2.5"/>
-                        <!-- H&H Text on Shirt -->
-                        <text x="50" y="77" font-size="14" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial">H&H</text>
-
-                        <!-- Arms & Notepad -->
-                        <g class="arm-pen">
-                            <!-- Left arm holding pad -->
-                            <path d="M 20 60 L 10 75 L 25 80" fill="none" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
-                            <!-- Notepad -->
-                            <rect x="5" y="70" width="22" height="26" rx="3" fill="#fff" stroke="#374151" stroke-width="1.5"/>
-                            <line x1="9" y1="76" x2="21" y2="76" stroke="#9ca3af" stroke-width="1.5"/>
-                            <line x1="9" y1="82" x2="21" y2="82" stroke="#9ca3af" stroke-width="1.5"/>
-                            <!-- Right arm with pen -->
-                            <path d="M 80 60 L 90 72 L 75 80" fill="none" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
-                            <line x1="75" y1="80" x2="22" y2="82" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
-                        </g>
-                    </svg>
-                </div>
-                <div class="speech-bubble" id="bubble1">
-                    7C Brawl Stars turnirinə qatılmaq istəyirsən?
-                </div>
+        <!-- MAIN CARD -->
+        <div class="card-dark">
+            <span class="badge-pink">NÖVBƏTİ İMTAHAN</span>
+            <h2>IV VƏ VI SİNİFLƏR MONİTORİNQ ÜZRƏ SINAQ İMTAHANI, I-VII SİNİFLƏR SINAQ İMTAHANI</h2>
+            
+            <div class="card-tags">
+                <span class="tag-pill">1 Noyabr</span>
+                <span class="tag-pill" style="opacity: 0.7;">Qeydiyyat bağlıdır</span>
             </div>
 
-            <div class="options-list">
-                <button class="option-btn" onclick="selectOption1(this, 'yes')">
-                    <span>Bəli</span>
-                </button>
-                <button class="option-btn" onclick="selectOption1(this, 'think')">
-                    <span>Hələ fikirləşmirəm</span>
-                </button>
+            <div class="select-box" onclick="alert('Sinif seçimləri tezliklə aktivləşdiriləcək.')">
+                <span>SİNİF SEÇİN: 01 Noyabr — IV VƏ VI SİNİFLƏR I</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <button class="btn-primary btn-accent" onclick="document.getElementById('cabinetModal').style.display='flex'">
+                Qeydiyyatdan keç <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- CALENDAR SECTION -->
+        <div class="section-header">
+            <div>
+                <div class="section-title-sub">İmtahan Təqvimi</div>
+                <div class="section-title">Yaxın imtahan tarixləri</div>
+            </div>
+            <span style="font-size: 11px; color: var(--text-muted);">31 imtahan tarixi</span>
+        </div>
+
+        <!-- EXAM ITEMS -->
+        <div class="exam-item">
+            <div class="date-badge">
+                <div class="day">01</div>
+                <div class="month">NOY</div>
+            </div>
+            <div class="exam-details">
+                <ul>
+                    <li>IV VƏ VI SİNİFLƏR MONİTORİNQ ÜZRƏ SINAQ İMTAHANI</li>
+                    <li>I-VII SİNİFLƏR SINAQ İMTAHANI</li>
+                </ul>
+                <div class="status-line">
+                    <span class="status-tag" style="color: #ef4444;"><i class="fa-solid fa-circle-xmark"></i> Qeydiyyat bağlıdır</span>
+                </div>
             </div>
         </div>
 
-        <div class="footer-action">
-            <button class="submit-btn" id="nextBtn1" disabled onclick="handleStep1()">DEVAM ET</button>
+        <div class="exam-item">
+            <div class="date-badge">
+                <div class="day">08</div>
+                <div class="month">NOY</div>
+            </div>
+            <div class="exam-details">
+                <ul>
+                    <li>VIII-IX SİNİFLƏR DÖVLƏT DİLİ</li>
+                    <li>X VƏ XI SİNİFLƏR BLOK FƏNLƏRİ ÜZRƏ</li>
+                </ul>
+                <div class="status-line">
+                    <span class="status-tag"><i class="fa-solid fa-circle-check"></i> Qeydiyyat açıqdır</span>
+                    <button class="btn-primary btn-accent btn-sm" onclick="document.getElementById('cabinetModal').style.display='flex'">Qeydiyyat</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SERVICES SECTION -->
+        <div class="section-header" style="margin-top: 10px;">
+            <div>
+                <div class="section-title-sub">Xidmətlər</div>
+                <div class="section-title">Sürətli keçidlər</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="service-card" onclick="document.getElementById('cabinetModal').style.display='flex'">
+                <div class="service-icon"><i class="fa-regular fa-file-lines"></i></div>
+                <h4>İmtahana qeydiyyat</h4>
+                <p>Onlayn, bir neçə dəqiqəyə</p>
+            </div>
+            <div class="service-card" onclick="document.getElementById('resultModal').style.display='flex'">
+                <div class="service-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                <h4>Nəticə yoxla</h4>
+                <p>İş nömrəsi və telefonla</p>
+            </div>
+            <div class="service-card" onclick="document.getElementById('topicsModal').style.display='flex'">
+                <div class="service-icon"><i class="fa-solid fa-book"></i></div>
+                <h4>Mövzu siyahısı</h4>
+                <p>Fənn və sinif üzrə</p>
+            </div>
+            <div class="service-card" onclick="alert('hhmyclass İmtahan Mərkəzi: Mərkəzi Filial')">
+                <div class="service-icon"><i class="fa-solid fa-house"></i></div>
+                <h4>İmtahan mərkəzləri</h4>
+                <p>Ünvan, telefon, xəritə</p>
+            </div>
         </div>
     </div>
 
-    <!-- EKRAN 2: İSTİFADƏÇİ SEÇİMİ -->
-    <div id="screen2" class="screen">
-        <div>
-            <div class="robot-section">
-                <div class="robot-container" id="robot2">
-                    <!-- Eyni Robot SVG -->
-                    <svg class="robot-svg" viewBox="0 0 100 110">
-                        <g class="robot-head">
-                            <rect x="25" y="15" width="50" height="35" rx="10" fill="#d1d5db" stroke="#374151" stroke-width="2.5"/>
-                            <rect x="32" y="22" width="36" height="20" rx="5" fill="#111827"/>
-                            <circle cx="42" cy="32" r="4" fill="#60a5fa"/>
-                            <circle cx="58" cy="32" r="4" fill="#60a5fa"/>
-                            <line x1="50" y1="15" x2="50" y2="5" stroke="#374151" stroke-width="2.5"/>
-                            <circle cx="50" cy="4" r="3" fill="#ef4444"/>
-                        </g>
-                        <rect x="20" y="52" width="60" height="40" rx="8" fill="#1cb0f6" stroke="#0284c7" stroke-width="2.5"/>
-                        <text x="50" y="77" font-size="14" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial">H&H</text>
-                        <g class="arm-pen">
-                            <path d="M 20 60 L 10 75 L 25 80" fill="none" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
-                            <rect x="5" y="70" width="22" height="26" rx="3" fill="#fff" stroke="#374151" stroke-width="1.5"/>
-                            <line x1="9" y1="76" x2="21" y2="76" stroke="#9ca3af" stroke-width="1.5"/>
-                            <line x1="9" y1="82" x2="21" y2="82" stroke="#9ca3af" stroke-width="1.5"/>
-                            <path d="M 80 60 L 90 72 L 75 80" fill="none" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
-                            <line x1="75" y1="80" x2="22" y2="82" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
-                        </g>
-                    </svg>
+    <!-- FLOATING CHAT BUTTON -->
+    <button class="fab-chat" onclick="document.getElementById('chatModal').style.display='flex'">
+        <i class="fa-solid fa-robot"></i>
+    </button>
+
+    <!-- RESULT MODAL -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3>İmtahan Nəticələri</h3>
+                    <p>Nəticənizi görmək üçün iş və telefon nömrənizi daxil edin.</p>
                 </div>
-                <div class="speech-bubble">
-                    Sən aşağıdakılardan hansısan?
-                </div>
+                <button class="close-btn" onclick="document.getElementById('resultModal').style.display='none'; document.getElementById('resultAlert').style.display='none';">✕</button>
             </div>
 
-            <div class="options-list">
-                <button class="option-btn" onclick="selectUser(this, 'Hüseyn.Ə')">Hüseyn.Ə</button>
-                <button class="option-btn" onclick="selectUser(this, 'Eldar')">Eldar</button>
-                <button class="option-btn" onclick="selectUser(this, 'Hüseyn.B')">Hüseyn.B</button>
-                <button class="option-btn" onclick="selectUser(this, 'Kənan.V')">Kənan.V</button>
-                <button class="option-btn" onclick="selectUser(this, 'Kənan.A')">Kənan.A</button>
-                <button class="option-btn" onclick="selectUser(this, 'Kənan.M')">Kənan.M</button>
-                <button class="option-btn" onclick="selectUser(this, 'Mələk.B')">Mələk.B</button>
-                <button class="option-btn" onclick="selectUser(this, 'Həsən.B')">Həsən.B</button>
-            </div>
-        </div>
+            <form onsubmit="event.preventDefault(); document.getElementById('resultAlert').style.display='block';">
+                <div class="form-group">
+                    <label>İş Nömrəsi</label>
+                    <input type="text" class="form-input" placeholder="4546152" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefon Nömrəsi</label>
+                    <input type="tel" class="form-input" placeholder="+994XXXXXXXXX" required>
+                </div>
+                <button type="submit" class="btn-primary btn-accent" style="margin-top: 10px;">YOXLA</button>
+            </form>
 
-        <div class="footer-action">
-            <button class="submit-btn" id="nextBtn2" disabled onclick="startLoading()">TƏSDİQLƏ</button>
+            <div class="alert-box" id="resultAlert">
+                <div class="alert-title"><i class="fa-solid fa-circle-exclamation"></i> Məlumat:</div>
+                <div class="alert-desc">Hələ imtahanlar yoxlanılmayıb.</div>
+            </div>
+
+            <p style="font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 16px;">
+                Məlumatlarınız yalnız nəticənin tapılması üçün istifadə olunur.
+            </p>
         </div>
     </div>
 
-    <!-- EKRAN 3: YÜKLƏNMƏ (LOADING) -->
-    <div id="screen3" class="screen">
-        <div class="loading-screen">
-            <div class="hh-logo">H&H</div>
-            <div class="loading-text">H&H şəxsi client yaradılır...</div>
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- EKRAN 4: LOBİ -->
-    <div id="screen4" class="screen">
-        <div class="lobby-screen">
-            <div class="player-badge" id="playerBadge">Oyunçu: -</div>
-            <h2 style="font-size: 22px; font-weight: 800; color: #111827;">H&H Turniket Lobi</h2>
-
-            <div class="lobby-card">
-                <div class="lobby-title">
-                    <span>⚠️</span> Məlumat
-                </div>
-                <div class="lobby-desc">
-                    Hələ layihə yaxud Turnir planlaşdırılmayıb! Sonra yenidən yoxlayın. Əgər hansısa layihə olsa QR kod ilə otağa daxil olub turniketə qatılacaqsınız və sinifin ən yaxşı oyunçusu seçiləcəksiniz.
-                </div>
-            </div>
-
-            <div class="qr-placeholder">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="7" height="7"></rect>
-                    <rect x="14" y="3" width="7" height="7"></rect>
-                    <rect x="3" y="14" width="7" height="7"></rect>
-                    <path d="M14 14h3v3h-3z"></path>
-                    <path d="M18 18h3v3h-3z"></path>
-                    <path d="M14 18h3v3h-3z"></path>
-                </div style="margin-top: 6px;">QR Kod Gözlənilir</div>
-            </div>
-        </div>
-
-        <div class="footer-action">
-            <button class="submit-btn" onclick="resetApp()">BAŞA QAYIT</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    let selectedStep1 = null;
-    let selectedUser = null;
-
-    function triggerRobotAnimation(robotId) {
-        const robot = document.getElementById(robotId);
-        robot.classList.add('writing-animation');
-        setTimeout(() => {
-            robot.classList.remove('writing-animation');
-        }, 1200);
-    }
-
-    function selectOption1(element, val) {
-        selectedStep1 = val;
-        document.querySelectorAll('#screen1 .option-btn').forEach(btn => btn.classList.remove('selected'));
-        element.classList.add('selected');
-        document.getElementById('nextBtn1').removeAttribute('disabled');
-        
-        // Robotun qeyd etmə animasiyasını işə salırıq
-        triggerRobotAnimation('robot1');
-    }
-
-    function handleStep1() {
-        if (selectedStep1 === 'think') {
-            document.getElementById('bubble1').innerText = "Oldu! Hələlik fikirləş 1 oktyabrdan - 10 Marta qədər gələ bilərsən hələlik!";
-            document.querySelectorAll('#screen1 .option-btn').forEach(btn => btn.style.display = 'none');
-            document.getElementById('nextBtn1').style.display = 'none';
-        } else if (selectedStep1 === 'yes') {
-            showScreen('screen2');
-        }
-    }
-
-    function selectUser(element, userName) {
-        selectedUser = userName;
-        document.querySelectorAll('#screen2 .option-btn').forEach(btn => btn.classList.remove('selected'));
-        element.classList.add('selected');
-        document.getElementById('nextBtn2').removeAttribute('disabled');
-
-        // Robotun qeyd etmə animasiyasını işə salırıq
-        triggerRobotAnimation('robot2');
-    }
-
-    function startLoading() {
-        showScreen('screen3');
-        const progressBar = document.getElementById('progressBar');
-        let width = 0;
-        
-        // 4 saniyəlik yüklənmə taymeri (40ms * 100 = 4000ms = 4 saniyə)
-        const interval = setInterval(() => {
-            if (width >= 100) {
-                clearInterval(interval);
-                document.getElementById('playerBadge').innerText = "Oyunçu: " + selectedUser;
-                showScreen('screen4');
-            } else {
-                width++;
-               
+    <!-- CABINET MODAL -->
+    <div class="modal-overlay" id="cabinetModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3>Daxil ol</h3>
+                    <p>Şəxsi kabinetinizə da
